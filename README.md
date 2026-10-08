@@ -24,6 +24,7 @@ Une mise à l'échelle est proposée par le script sur les écrans ayant une ré
 | 🟢 Fedora              | `44`          |    ✅    |    ✅    |       4.9      | 20/09/2026 |
 | 🟢 Kubuntu             | `26.04`       |    ✅    |    ✅    |       4.6      | 07/09/2026 |
 | 🟢 Ubuntu MATE         | `24.04`       |    ✅    |    ✅    |       4.6      | 07/09/2026 |
+| 🟢 Ubuntu              | `22.04 LTS`   |    ✅    |    ✅    |     4.10.2     | 08/10/2026 |
 | 🟢 NixOS               | —             |    ✅    |    ✅    |       4.9      | 20/09/2026 |
 
 ### Familles de distributions probablement compatibles
