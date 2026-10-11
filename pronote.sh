@@ -1819,7 +1819,7 @@ check_latest_version() {
     fi
 
     if [ -z "$found_ver" ]; then
-        # Texte de la page : « CLIENT PRONOTE 2026 - 2.6 »
+        # Texte de la page : « CLIENT PRONOTE 2026 - 2.7 »
         local txt="" year="" minor=""
         txt="$(grep -oE 'CLIENT PRONOTE[[:space:]]+[0-9]{4}[[:space:]]*-[[:space:]]*[0-9]+\.[0-9]+' <<< "$page" | head -n1 || true)"
         if [ -n "$txt" ]; then
