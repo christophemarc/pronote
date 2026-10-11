@@ -234,7 +234,7 @@ set -euo pipefail
 
 readonly SCRIPT_VERSION="4.10.2"
 readonly DEFAULT_YEAR="2026"
-readonly DEFAULT_VERSION="2026.2.6"
+readonly DEFAULT_VERSION="2026.2.7"
 # Pronote 2026 refuse de se lancer avec Wine 9 ou une version inférieure :
 # la version minimale exigée est donc Wine 10.0.
 readonly MIN_WINE_VERSION="10.0"
