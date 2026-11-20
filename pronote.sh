@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Installation Pronote Client 2026 - Script universel Linux v4.10.2
+# Installation Pronote Client 2026 - Script universel Linux v4.10.3
 # Support natif : Debian, Ubuntu, Mint, Fedora, Arch, CachyOS, Manjaro,
 #                 Omarchy, EndeavourOS, Garuda, openSUSE, NixOS, GLF OS,
 #                 Solus, Alpine Linux, Void Linux, Slackware (et Salix),
@@ -243,7 +243,7 @@ set -euo pipefail
 # Configuration générale
 # ------------------------------------------------------------------------------
 
-readonly SCRIPT_VERSION="4.10.2"
+readonly SCRIPT_VERSION="4.10.3"
 readonly DEFAULT_YEAR="2026"
 readonly DEFAULT_VERSION="2026.2.8"
 # Pronote 2026 refuse de se lancer avec Wine 9 ou une version inférieure :
@@ -255,7 +255,7 @@ readonly PRONOTE_ICON_URLS=(
     "https://img.icons8.com/doodle/1200/pronote-logo.jpg"
     "https://img.icons8.com/doodle/480/pronote-logo.png"
 )
-readonly HTTP_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) PronoteInstaller/4.10.2"
+readonly HTTP_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) PronoteInstaller/4.10.3"
 readonly ICON_SIZES=(16 22 24 32 48 64 128 256)
 readonly ICON_BASE_DIR="$HOME/.local/share/icons/hicolor"
 readonly ICON_DIR="$ICON_BASE_DIR/scalable/apps"
