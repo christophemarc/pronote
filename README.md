@@ -2,7 +2,7 @@
 
 Installation de **Pronote Client 2026** sous Linux grâce à **Wine**.
 
-> **Version du script : 4.10.2 — 07/10/2026**
+> **Version du script : 4.10.3 — 20/11/2026**
 
 Le script permet d'installer les versions **32 bits et 64 bits** de Pronote Client 2026 et crée automatiquement les raccourcis nécessaires dans le menu des applications lorsque l'environnement de bureau le permet.
 
