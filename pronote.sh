@@ -13,6 +13,17 @@
 #   64 bits : ~/.local/share/wineprefixes/pronote-2026
 #   32 bits : ~/.local/share/wineprefixes/pronote-2026-32
 #
+# Changelog v4.10.3 :
+#   - Correctif Fedora 42 / Wine 10.20 (erreur externe 80000100 au démarrage
+#     de Pronote) : Wine 10.20 introduit des bibliothèques « stub » icu.dll,
+#     icuuc.dll et icuin.dll (Wine Bug #59046) dont la fonction u_init n'est
+#     pas implémentée, provoquant un crash immédiat au lancement. Le script
+#     neutralise désormais ces stubs (icu=;icuuc,icuin=n) dès le sondage et
+#     la préparation du préfixe Wine, les inscrit durablement dans le registre
+#     du préfixe (HKCU\Software\Wine\DllOverrides) et les exporte dans le
+#     lanceur généré (~/.local/bin/pronote-2026-*). Sans impact sur les autres
+#     distributions ni sur Wine 10.0-10.19 / 11+. Aucun autre changement.
+#
 # Changelog v4.10.2 :
 #   - Correctif « attente du verrou dpkg alors qu'il est libre » (retour
 #     d'un utilisateur Ubuntu 22.04) : Ubuntu garde en permanence le
@@ -1751,7 +1762,7 @@ probe_win32_prefix_support() {
         export WINEPREFIX="$test_prefix"
         export WINEARCH="win32"
         export WINEDEBUG="-all"
-        export WINEDLLOVERRIDES="mscoree,mshtml,winemenubuilder.exe="
+        export WINEDLLOVERRIDES="mscoree,mshtml,winemenubuilder.exe,icu=;icuuc,icuin=n"
         if [ -n "${WINEBOOT_BIN:-}" ] && [ -x "$WINEBOOT_BIN" ]; then
             run_with_timeout 600 "$WINEBOOT_BIN" --init 2>&1
         else
@@ -3478,7 +3489,7 @@ configure_wine() {
     # préparation du préfixe (Pronote n'en a pas besoin : il utilise CEF).
     # Debian/Ubuntu ne fournissent pas ces paquets : sans ce réglage, une
     # boîte de dialogue bloquante apparaissait au premier wineboot.
-    export WINEDLLOVERRIDES="${WINEDLLOVERRIDES:-mscoree,mshtml=}"
+    export WINEDLLOVERRIDES="icu=;icuuc,icuin=n;${WINEDLLOVERRIDES:-mscoree,mshtml=}"
 
     # --- Préfixe : aucune question n'est posée ------------------------------
     # Un préfixe existant de même architecture est réutilisé ; s'il contient
@@ -3557,6 +3568,20 @@ configure_wine() {
 
     # winetricks peut modifier la version Windows : on la force à nouveau.
     force_windows_version_registry
+
+    # --- Correctif Fedora 42 / Wine 10.20 : neutralisation des stubs ICU ---
+    if [ -d "$WINEPREFIX/drive_c/windows/temp" ]; then
+        cat > "$WINEPREFIX/drive_c/windows/temp/pronote-icu.reg" << 'ICU_REG'
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"icu"=""
+"icuuc"="native"
+"icuin"="native"
+ICU_REG
+        import_reg_file "$WINEPREFIX/drive_c/windows/temp/pronote-icu.reg" 'C:\windows\temp\pronote-icu.reg' || true
+        rm -f "$WINEPREFIX/drive_c/windows/temp/pronote-icu.reg" 2>/dev/null || true
+    fi
 
     # --- Pièces jointes : ouverture via les applications Linux ---------------
     install_attachment_opener
@@ -4833,6 +4858,8 @@ if [ ! -x "\$WINE_CMD" ]; then
     WINE_CMD="\$(command -v wine 2>/dev/null || echo wine)"
 fi
 export WINE="\$WINE_CMD"
+# Correctif Fedora 42 / Wine 10.20 (Bug #59046) : neutralise le stub icu.dll.u_init (erreur externe 80000100)
+export WINEDLLOVERRIDES="icu=;icuuc,icuin=n\${WINEDLLOVERRIDES:+;\$WINEDLLOVERRIDES}"
 $(if [ -n "$wineserver_for_launcher" ]; then echo "[ -x \"$wineserver_for_launcher\" ] && export WINESERVER=\"$wineserver_for_launcher\""; fi)
 
 LOG_DIR="$launcher_log_dir"
